@@ -15,7 +15,7 @@ export default defineConfig({
     minify: true,
     lib: {
       entry: resolve(__dirname, "resources/js/tool.ts"),
-      name: "tool-template",
+      name: "tool",
       formats: ["umd"],
       fileName: "js/tool",
     },
