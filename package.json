@@ -9,9 +9,13 @@
   "scripts": {
     "dev": "vite build --watch",
     "build": "vite build",
-    "prod": "npm run build",
-    "production": "npm run build",
-    "nova:install": "npm --prefix='../../vendor/laravel/nova' ci"
+    "nova:install": "npm --prefix='../../vendor/laravel/nova' ci",
+    "prod": "npm run package",
+    "production": "npm run package",
+    "package": "npm run format && npm run lint && npm run build",
+    "check-format": "prettier --list-different 'resources/**/*.{css,js,vue,ts}'",
+    "format": "prettier --write 'resources/js/**/*.{css,js,vue,ts}'",
+    "lint": "eslint resources/js --fix --ext js,vue,ts"
   },
   "devDependencies": {
     "@inertiajs/inertia": "^0.11.1",

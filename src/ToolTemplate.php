@@ -6,7 +6,6 @@ namespace Oneduo\ToolTemplate;
 
 use Illuminate\Http\Request;
 use Innocenzi\Vite\Exceptions\NoSuchEntrypointException;
-use Innocenzi\Vite\Manifest;
 use Laravel\Nova\Menu\MenuSection;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Tool;
@@ -20,13 +19,8 @@ class ToolTemplate extends Tool
      */
     public function boot(): void
     {
-        $manifest = Manifest::read(__DIR__ . '/../dist/manifest.json');
-
-        $script = $manifest->getEntry('js/tool.ts')->file;
-        $style = $manifest->getChunk('style.css')->file;
-
-        Nova::script('tool-template', __DIR__ . '/../dist/' . $script);
-        Nova::style('tool-template', __DIR__ . '/../dist/' . $style);
+        Nova::style('nova-file-manager', __DIR__ . '/../dist/css/tool.css');
+        Nova::script('nova-file-manager', __DIR__ . '/../dist/js/tool.js');
     }
 
     /**

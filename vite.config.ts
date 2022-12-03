@@ -1,40 +1,54 @@
-import vue from "@vitejs/plugin-vue"
-import { resolve } from "path"
-import { defineConfig } from "vite"
+import alias from '@rollup/plugin-alias'
+import vue from '@vitejs/plugin-vue'
+import {resolve} from 'path'
+import {defineConfig} from 'vite'
+import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig({
-  plugins: [vue()],
+  plugins: [
+    vue(),
+    tsconfigPaths(),
+    alias({
+      entries: [
+        {
+          find: '@',
+          replacement: resolve(__dirname, 'resources/js'),
+        },
+      ],
+    }),
+  ],
 
-  root: "resources",
+  define: {
+    'process.env': process.env, // Vite ditched process.env, so we need to pass it in
+  },
 
   build: {
-    outDir: resolve(__dirname, "dist"),
+    outDir: resolve(__dirname, 'dist'),
     emptyOutDir: true,
-    manifest: true,
-    target: "es2018",
+    target: 'ES2022',
     minify: true,
+    manifest: true,
     lib: {
-      entry: resolve(__dirname, "resources/js/tool.ts"),
-      name: "tool",
-      formats: ["umd"],
-      fileName: "js/tool",
+      entry: resolve(__dirname, 'resources/js/tool.ts'),
+      name: 'tool',
+      formats: ['umd'],
+      fileName: () => 'js/tool.js',
     },
     rollupOptions: {
-      input: resolve(__dirname, "resources/js/tool.ts"),
-      external: ["vue", "Nova", "LaravelNova"],
+      input: resolve(__dirname, 'resources/js/tool.ts'),
+      external: ['vue', 'Nova', 'LaravelNova'],
       output: {
         globals: {
-          vue: "Vue",
-          nova: "Nova",
-          "laravel-nova": "LaravelNova",
+          vue: 'Vue',
+          nova: 'Nova',
+          'laravel-nova': 'LaravelNova',
         },
-
-        assetFileNames: "css/tool.css",
+        assetFileNames: 'css/tool.css',
       },
     },
   },
 
   optimizeDeps: {
-    include: ["vue", "@inertiajs/inertia", "@inertiajs/inertia-vue3", "axios"],
+    include: ['vue', '@inertiajs/inertia', '@inertiajs/inertia-vue3', 'axios'],
   },
 })
